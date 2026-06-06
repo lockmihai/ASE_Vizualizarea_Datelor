@@ -1,8 +1,10 @@
 from fastapi import FastAPI, Query, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 import time
+import os
 
 from backend.graph_db import GraphDB
 from backend.generator import generate_mock_data
@@ -551,3 +553,13 @@ def get_token_prediction(
         "history": price_history,
         "predictions": prediction_result
     }
+
+# Serve React frontend static files
+static_path = "/app/static" if os.path.exists("/app/static") else os.path.join(os.path.dirname(os.path.abspath(__file__)), "../static")
+if not os.path.exists(static_path):
+    static_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../frontend/dist")
+
+if os.path.exists(static_path):
+    app.mount("/", StaticFiles(directory=static_path, html=True), name="static")
+else:
+    print(f"Warning: static files directory not found at {static_path}. React app will not be served.")
