@@ -1,0 +1,21 @@
+# Ignore node dependencies
+**/node_modules/
+**/dist/
+
+# Ignore Python cache and virtualenvs
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+.venv/
+env/
+venv/
+ENV/
+
+# Ignore local config and Git
+.git/
+.gitignore
+.dockerignore
+.gemini/
+.system_generated/
+*.log
